@@ -21,12 +21,11 @@ Functionality is demonstrated with the file `demo_plot.m`
 But here is a snippet for the top left example:
 
     x   = linspace(-pi,pi,200);
-	y2  = sin(x*4);
-	y1  = zeros(size(x));
-	plot(x,y2,'k-')
+	y  = sin(x*4);
+	plot(x,y,'k-')
 	 
 	opts={'EdgeColor', 'none', 'FaceColor',[0.5 0.5 1]};
     	
-    fill_between(x,y1,y2, x>0 & x<pi/2, opts);
+    fill_between(x,y,0, x>0 & x<pi/2, opts);
 
 If you'd like to improve the functionality, please do feel free to create a branch and submit a pull request.
