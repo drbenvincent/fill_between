@@ -9,6 +9,9 @@ The function has the following arguments:
 * `x` is a vector of x locations
 * `y1` and `y2` are vectors of y locations
 * `where` is any binary vector specifying the conditions under which the regions between `y1` and `y2` will be filled. This is a nice property as we can plot a curve, and decide to only fill a particular region of that curve (see top left in figure below).
+	* if `where=1` or `where=[]` then we assume we want to fill all of the x values given (see the top right example).
+	* `y1` and `y2` can both be vectors, in which case we will fill between then (see top right, and bottom left examples).
+	* `y1` or `y2` (but not both) can be constants, and we just fill up to a particular y baseline see bottom right example.
 * `opts` is a cell array of patch properties which will be applied to the fill.
 
 Functionality is demonstrated with the file `demo_plot.m`

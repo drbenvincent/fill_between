@@ -45,7 +45,7 @@ opts={'EdgeColor', 'none',...
     'FaceColor',[1 0.5 0.5]};
 
 % Do the filling
-fill_between(x,y1,y2, [], opts);
+fill_between(x, y1,y2, [], opts);
 
 %%
 % Example 3 ===============================================================
@@ -62,30 +62,29 @@ box off
 % Do the filling
 opts={'EdgeColor', 'none',...
     'FaceColor',[1 0.5 0.5]};
-fill_between(x,y1,y2, y1>y2, opts);
+fill_between(x, y1,y2, y1>y2, opts);
 
 opts={'EdgeColor', 'none',...
     'FaceColor',[0.5 1 0.5]};
-fill_between(x,y1,y2, y1<y2, opts);
+fill_between(x, y1,y2, y1<y2, opts);
 
 
 %%
 % Example 4 ===============================================================
 subplot(2,2,4)
 x   = linspace(-4,4,600);
-y1  = ones(size(x))*0.5;
-y2  = sin(x*4);
+y  = sin(x*4);
 
-plot(x,y2,'k-')
+plot(x,y,'k-')
 box off
 
 % Do the filling
 opts={'EdgeColor', 'none',...
     'FaceColor',[1 0.5 0.5]};
-fill_between(x,y1,y2, y2>0.5, opts);
+fill_between(x, 0.5, y, y>0.5, opts);
 
 % Do the filling
 opts={'EdgeColor', 'none',...
     'FaceColor',[0.5 1 0.5]};
-fill_between(x,zeros(size(x)),y2, y2<0, opts);
+fill_between(x, 0,y, y<0, opts);
 

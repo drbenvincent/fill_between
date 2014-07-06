@@ -16,6 +16,29 @@ if numel(where)==0
     where=ones(size(x));
 end
 
+% if where = 1 then we assume we want to fill all regions
+if numel(where)==1
+	if where==1
+		where=ones(size(x));
+	end
+end
+
+% see if y1 OR y2 are constants
+nx=numel(x); ny1=numel(y1); ny2=numel(y2); 
+if nx==ny1 | nx==ny2
+	%fine
+else
+	error('y1 or y2 have to be the same dimensions as x')
+end
+
+if ny1==1
+	y1=ones(size(x))*y1;
+end
+
+if ny2==1
+	y2=ones(size(x))*y2;
+end
+
 %%
 % Check to see if 'where' contains just one zone, or many zones. We'll need
 % to draw a patch for each zone. We are going to create a vector which will
