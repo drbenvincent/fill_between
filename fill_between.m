@@ -6,6 +6,11 @@ function h = fill_between(x,y1,y2, where, opts)
 initialHoldState=ishold(gca);
 hold on
 
+% ensure x, y1, y2 are row vectors
+if isrow(x)~=1, x=x'; end
+if isrow(y1)~=1, y1=y1'; end
+if isrow(y2)~=1, y2=y2'; end
+
 % if no 'where' vector is provided...
 if numel(where)==0
     where=ones(size(x));
