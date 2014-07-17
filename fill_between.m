@@ -1,42 +1,51 @@
-function h = fill_between(x,y1,y2, where, opts)
+function h = fill_between(x, y1, y2, where, varargin)
 % function originally written by Ben Vincent, July 2014. Inspired by a
 % function of the same name available in the Matplotlib Python library.
 
-% check hold status so we can return things to how they were 
-initialHoldState=ishold(gca);
-hold on
+% Save current axes so it can't change during runtime
+ca = gca;
 
-% ensure x, y1, y2 are row vectors
-if isrow(x)~=1, x=x'; end
-if isrow(y1)~=1, y1=y1'; end
-if isrow(y2)~=1, y2=y2'; end
+% Check hold status so we can return things to how they were 
+initialHoldState = ishold(ca);
+hold(ca, 'on');
+
+% Ensure x, y1, y2 are row vectors
+if ~isrow(x)
+    x=x.';
+end
+if ~isrow(y1)
+    y1=y1.';
+end
+if ~isrow(y2)
+    y2=y2.';
+end
 
 % if no 'where' vector is provided...
-if numel(where)==0
-    where=ones(size(x));
+if isempty(where)
+    where = ones(size(x));
 end
 
 % if where = 1 then we assume we want to fill all regions
-if numel(where)==1
-	if where==1
-		where=ones(size(x));
-	end
+if isequal(where, 1)
+    where = ones(size(x));
 end
 
 % see if y1 OR y2 are constants
-nx=numel(x); ny1=numel(y1); ny2=numel(y2); 
-if nx==ny1 | nx==ny2
+nx = numel(x);
+ny1 = numel(y1);
+ny2 = numel(y2); 
+if nx == ny1 || nx == ny2
 	%fine
 else
-	error('y1 or y2 have to be the same dimensions as x')
+	error('Either y1 or y2 have to be the same size as x')
 end
 
-if ny1==1
-	y1=ones(size(x))*y1;
+if ny1 == 1
+	y1 = y1*ones(size(x));
 end
 
-if ny2==1
-	y2=ones(size(x))*y2;
+if ny2 == 1
+	y2 = y2*ones(size(x));
 end
 
 %%
@@ -45,11 +54,10 @@ end
 % take on values of 0 for areas we will not fill, and areas >1 for areas we
 % will fill. This vector will be integer valued, the number describing the
 % region number.
-region=0;
-if where(1)==1
-    region=1;
+if where(1)
+    region = 1;
 else
-    region=0;
+    region = 0;
 end
 cat(1) = region;
 % Now loop through the remaining entries
@@ -67,11 +75,11 @@ end
 
 % Now call the fill function for each  
 if max(cat)==0
-    error('no area to fill')
+    error('no area to fill');
 end
-for n=1:max(cat)
+for n = 1:max(cat)
     % ---------------------------------
-    h(n) = fill_patch(x,y1,y2, cat==n);
+    h(n) = fill_patch(x, y1, y2, cat == n);
     % ---------------------------------
 end
 
@@ -83,42 +91,32 @@ end
 % cycle through options provided and apply them. These are patch properties
 % which are listed here:
 % http://www.mathworks.co.uk/help/matlab/ref/patch_props.html
-for n=1:2:numel(opts)
-    set(h, opts{n}, opts{n+1});
-end
+set(h, varargin{:});
 
 % move it to the back
-uistack(h,'bottom') 
+uistack(h, 'bottom')
 
 % return to initial hold state
 if initialHoldState==0
-	hold off
+	hold(ca, 'off');
+end
+
+% make sure none of the fills run over the axes
+set(ca,'Layer','top')
+
 end
 
 
-% make sure none of the fills run over the axes
-set(gca,'Layer','top')
-
-
-
-return
-    
-        
-
-
-
-
-function h=fill_patch(x,y1,y2, where)
-% Actually draw the filled patch 
+function h = fill_patch(x, y1, y2, where)
+% Draw the filled patch 
 
 default_col=[1 0 0];
 
-x =[x(where==1),fliplr(x(where==1))];
-y =[y1(where==1),fliplr(y2(where==1))];
+x =[x(where), fliplr(x(where))];
+y =[y1(where), fliplr(y2(where))];
 
 % DRAW THE PATCH --------
-h=patch(x,y,default_col);
+h = patch(x, y, default_col);
 % -----------------------
-return
 
-return
+end
