@@ -4,7 +4,7 @@ A Matlab function to fill selected areas in plots. This function was inspired by
 
 The function has the following arguments:
 
-    h = fill_between(x,y1,y2, where, opts);
+    [y1handle, y2handle, h] = fill_between(x,y1,y2, where, opts);
 
 * `x` is a vector of x locations
 * `y1` and `y2` are vectors of y locations
@@ -22,7 +22,6 @@ But here is a snippet for the top left example:
 
     x = linspace(-pi,pi,200);
     y = sin(x*4);
-    plot(x, y, 'k-')
     
     fill_between(x, y, 0, x>0 & x<pi/2, 'EdgeColor', 'none', 'FaceColor', [0.5 0.5 1]);
 

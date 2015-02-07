@@ -1,4 +1,4 @@
-function h = fill_between(x, y1, y2, where, varargin)
+function [y1handle, y2handle, h] = fill_between(x, y1, y2, where, varargin)
 % function originally written by Ben Vincent, July 2014. Inspired by a
 % function of the same name available in the Matplotlib Python library.
 
@@ -83,6 +83,11 @@ for n = 1:max(cat)
     % ---------------------------------
 end
 
+
+%% Now plot the full x,y1 and x,y2 lines
+hold on
+y1handle = plot(x,y1,'k-');
+y2handle = plot(x,y2,'k-');
 
 
 
